@@ -1,34 +1,27 @@
-# app_with_rag.py — Full Agentic Concierge App with Pinecone Retrieval (concierge_agent)
+# app.py — Full Agentic Concierge App with Pinecone Retrieval
 import streamlit as st
 import time
-import json
-from openai import OpenAI
-from pinecone import Pinecone
-import numpy as np
-import pinecone as pc
 import os
-
+from pinecone import Pinecone
+from router import route_message
 
 # -------- CONFIG --------
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
-ASSISTANT_ID = "asst_WQ1Rkuhpgr0HUYNd9SNMVrzs"
 PINECONE_API_KEY = os.getenv("PINECONE_API_KEY")
 PINECONE_INDEX_NAME = "petsittingknowledge"
 
-client = OpenAI(api_key=OPENAI_API_KEY)
+# ✅ Initialize Pinecone client (Modern way)
 pc = Pinecone(api_key=PINECONE_API_KEY)
 pinecone_index = pc.Index(PINECONE_INDEX_NAME)
 
-import streamlit as st
-from router import route_message
-
+# -------- STREAMLIT SETTINGS --------
 st.set_page_config(
     page_title="J.Sit & Stay Concierge",
     page_icon="🐾",
-    layout= "centered"
+    layout="centered"
 )
 
-# Apple-inspired full white styling and chat bubbles
+# ✅ Custom styling
 st.markdown("""
 <style>
     html, body, [class*="css"] {
@@ -41,8 +34,8 @@ st.markdown("""
     .chat-container {
         padding: 0.5rem 1rem;
         border-radius: 1.5rem;
-        margin-bottom: 1 rem;
-        max-width: %;
+        margin-bottom: 1rem;
+        max-width: 100%;
         word-wrap: break-word;
         line-height: 1.6;
     }
@@ -63,13 +56,12 @@ st.markdown("""
     .chat-row {
         display: flex;
         flex-direction: row;
-        margin-bottom: 1rem;  /* Add spacing between messages */
+        margin-bottom: 1rem;
     }
     
     .block-container {
-    padding-top: 1rem !important;
+        padding-top: 1rem !important;
     }
-
 
     .side-img {
         position: fixed;
@@ -97,29 +89,26 @@ st.markdown("""
         box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
     }
 
-
-
-
+    @keyframes float {
+        0%   { transform: translateY(0px); }
+        50%  { transform: translateY(-10px); }
+        100% { transform: translateY(0px); }
+    }
 </style>
 """, unsafe_allow_html=True)
 
-
-
-# Apple-style header – adjusted for tighter top margin
+# -------- HEADER --------
 with st.container():
     st.markdown("""
-        <!-- Header Section -->
         <div style='text-align: center; margin-top: 0rem; margin-bottom: 0rem;'>
-            <h0 style='font-family: -apple-system, BlinkMacSystemFont, serif; font-size: 4rem;'>🐶🐱</h1>
+            <h0 style='font-family: -apple-system, BlinkMacSystemFont, serif; font-size: 4rem;'>🐶🐱</h0>
             <h1 style='font-family: -apple-system, BlinkMacSystemFont, serif; font-size: 4rem;'>🐾 J.Sit & Stay 🐾</h1>
             <p style='font-family: -apple-system, BlinkMacSystemFont, serif; font-size: 2.5rem; margin-top: -0.5rem;'>🏠 Your Pet’s Home Away From Home 🏠</p>
             <hr style='margin-top: 1rem; margin-bottom: 1rem;'/>
         </div>
     """, unsafe_allow_html=True)
 
-
-
-#Initialize chat history
+# -------- CHAT --------
 if "chat_history" not in st.session_state:
     st.session_state.chat_history = []
 
@@ -127,22 +116,17 @@ if not st.session_state.chat_history:
     st.session_state.chat_history.append({
         "role": "assistant",
         "content": "👋 Hello there! I’m the assistant for Jerry at J.Sit & Stay!<br>"
-                
-            })
+    })
     st.session_state.chat_history.append({
         "role": "assistant",
-        "content": 
-                   "Feel free to let me know if I can help you with anything!😊<br><br>"
+        "content": "Feel free to let me know if I can help you with anything! 😊<br><br>"
                    "You can say things like:<br>"
                    "- Tell me more about Jerry<br>"
                    "- Help me book a stay<br>"
                    "- Ask any general questions about J.Sit & Stay!"
-
     })
 
-
-
-#Chat bubble renderer
+# Chat bubble renderer
 def render_bubble(message, sender="assistant"):
     css_class = "chat-assistant" if sender == "assistant" else "chat-user"
     st.markdown(
@@ -150,14 +134,9 @@ def render_bubble(message, sender="assistant"):
         unsafe_allow_html=True
     )
 
-#Render bubbles from chat history
-if "chat_history" not in st.session_state:
-    st.session_state.chat_history = []
-
+# Render chat history
 for msg in st.session_state.chat_history:
     render_bubble(msg["content"], sender=msg["role"])
-
-import time
 
 # Input + reply handling
 user_input = st.chat_input(
@@ -165,31 +144,28 @@ user_input = st.chat_input(
     disabled=st.session_state.get("waiting_for_reply", False)
 )
 
-# Only process once per turn
-if user_input and (not st.session_state.get("waiting_for_reply")):
-    # Save user input and render it
+if user_input and not st.session_state.get("waiting_for_reply"):
+    # Save user message
     st.session_state.chat_history.append({"role": "user", "content": user_input})
     render_bubble(user_input, sender="user")
-    st.session_state.waiting_for_reply = True  # lock reply state
+    st.session_state.waiting_for_reply = True
 
-    # Process user message → get assistant reply
+    # Process message
     with st.spinner("Just a second..."):
         reply = route_message(user_input)
 
-    # Stream assistant reply token by token with placeholder 🐶
+    # Stream assistant reply with 🐶
     placeholder = st.empty()
     streamed_text = ""
-
     for i, token in enumerate(reply):
         streamed_text += token
-        # Add 🐶 only while streaming, remove at the last token
         display_text = streamed_text + " 🐶" if i < len(reply) - 1 else streamed_text
         placeholder.markdown(
             f"<div class='chat-row'><div class='chat-container chat-assistant'>{display_text}</div></div>",
             unsafe_allow_html=True
         )
-        time.sleep(0.025)  # adjust speed if desired
+        time.sleep(0.025)
 
-    # Save full assistant reply to chat history
+    # Save full reply
     st.session_state.chat_history.append({"role": "assistant", "content": reply})
-    st.session_state.waiting_for_reply = False  # unlock
+    st.session_state.waiting_for_reply = False
