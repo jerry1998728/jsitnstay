@@ -13,7 +13,7 @@ SMTP_PORT = 587
 EXCEL_FILE = "bookings.xlsx"
 
 def send_email_notification(customer_info, pets):
-    # ✅ Create Excel in memory
+    # Create Excel in memory
     data = {
         **customer_info,
         **{f"pet{i+1}_{k}": v for i, pet in enumerate(pets) for k, v in pet.items()},
@@ -25,7 +25,7 @@ def send_email_notification(customer_info, pets):
     df.to_excel(excel_buffer, index=False, engine="openpyxl")
     excel_buffer.seek(0)
 
-    # ✅ Email content
+    # Email content
     msg = EmailMessage()
     msg["Subject"] = "New J.Sit & Stay Booking 🐾"
     msg["From"] = OWNER_EMAIL
@@ -51,11 +51,11 @@ Please check attached intake sheet.
 """
     msg.set_content(body)
 
-    # ✅ Attach Excel file
+    # Attach Excel file
     filename = f"booking_{datetime.now().strftime('%Y%m%d_%H%M')}.xlsx"
     msg.add_attachment(excel_buffer.read(), maintype="application", subtype="vnd.openxmlformats-officedocument.spreadsheetml.sheet", filename=filename)
 
-    # ✅ Send email
+    # Send email
     with smtplib.SMTP(SMTP_SERVER, SMTP_PORT) as server:
         server.starttls()
         server.login(OWNER_EMAIL, EMAIL_PASSWORD)
