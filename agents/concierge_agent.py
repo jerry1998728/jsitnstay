@@ -5,6 +5,7 @@ from langchain_community.vectorstores import Pinecone as LangchainPinecone
 from langchain.prompts import PromptTemplate
 from pinecone import Pinecone
 from openai import OpenAI
+import os
 
 
 def concierge_agent(message: str) -> str:
