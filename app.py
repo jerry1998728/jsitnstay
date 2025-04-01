@@ -6,6 +6,8 @@ from openai import OpenAI
 from pinecone import Pinecone
 import numpy as np
 import pinecone as pc
+import os
+
 
 # -------- CONFIG --------
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
