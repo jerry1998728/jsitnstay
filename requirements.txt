@@ -4,5 +4,5 @@ python-dotenv
 pandas
 email-validator
 langchain
-pinecone-client
+pinecone
 tiktoken
