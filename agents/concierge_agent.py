@@ -2,29 +2,30 @@ import os
 from langchain_openai import ChatOpenAI, OpenAIEmbeddings
 from langchain.chains import RetrievalQA
 from langchain.prompts import PromptTemplate
-from langchain_pinecone import PineconeVectorStore
-import pinecone
-
+from langchain_community.vectorstores import Pinecone as LangchainPinecone
+from pinecone import Pinecone
 
 def concierge_agent(message: str) -> str:
     # --- API Keys ---
     OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
     PINECONE_API_KEY = os.getenv("PINECONE_API_KEY")
-    pinecone_index_name = "petsittingknowledge"
+    PINECONE_INDEX_NAME = "petsittingknowledge"
 
-    # --- Initialize Pinecone ---
-    pinecone.init(api_key=PINECONE_API_KEY)
-    index = pinecone.Index(pinecone_index_name)
+    # --- Initialize Pinecone (v3 syntax) ---
+    pc = Pinecone(api_key=PINECONE_API_KEY)
+    index = pc.Index(PINECONE_INDEX_NAME)
 
     # --- LangChain Components ---
     llm = ChatOpenAI(
         model_name="gpt-3.5-turbo",
-        streaming=True,  # You can stream token-by-token
+        streaming=True,  # Token streaming enabled
         openai_api_key=OPENAI_API_KEY,
         temperature=0.7
     )
     embedder = OpenAIEmbeddings(openai_api_key=OPENAI_API_KEY)
-    vectorstore = PineconeVectorStore(index_name=pinecone_index_name, embedding=embedder)
+    
+    # ✅ Use correct VectorStore wrapper
+    vectorstore = LangchainPinecone(index, embedder, text_key="text")
     retriever = vectorstore.as_retriever()
 
     # --- Prompt Template ---
