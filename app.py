@@ -18,7 +18,7 @@ pinecone_index = pc.Index(PINECONE_INDEX_NAME)
 st.set_page_config(
     page_title="J.Sit & Stay Concierge",
     page_icon="🐾",
-    layout="centered"
+    layout="wide"
 )
 
 # ✅ Custom styling
@@ -122,6 +122,7 @@ if not st.session_state.chat_history:
         "content": "Feel free to let me know if I can help you with anything! 😊<br><br>"
                    "You can say things like:<br>"
                    "- Tell me more about Jerry<br>"
+                   "- How does Jerry manage conflicts<br>"
                    "- Help me book a stay<br>"
                    "- Ask any general questions about J.Sit & Stay!"
     })
