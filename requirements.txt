@@ -2,7 +2,6 @@ streamlit
 openai
 python-dotenv
 pandas
-smtplib
 email-validator
 langchain
 pinecone-client
