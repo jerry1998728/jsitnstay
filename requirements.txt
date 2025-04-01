@@ -5,6 +5,6 @@ pandas
 email-validator
 langchain
 langchain-pinecone
-
+openpyxl
 tiktoken
 langchain_community
