@@ -1,6 +1,5 @@
 import streamlit as st
 from utils.email_handler import send_email_notification
-from utils.excel_writer import save_booking_to_excel
 
 def booking_manager(message):
     if "booking_state" not in st.session_state:
