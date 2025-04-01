@@ -6,4 +6,3 @@ email-validator
 langchain
 pinecone
 tiktoken
-os
