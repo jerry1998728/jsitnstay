@@ -1,0 +1,19 @@
+services:
+  - type: web
+    name: jsitstay-concierge
+    env: python
+    branch: main
+    buildCommand: pip install -r requirements.txt
+    startCommand: streamlit run app.py --server.port $PORT --server.address 0.0.0.0
+    plan: free
+    envVars:
+      - key: OPENAI_API_KEY
+        sync: false
+      - key: PINECONE_API_KEY
+        sync: false
+      - key: OWNER_EMAIL
+        sync: false
+      - key: EMAIL_PASSWORD
+        sync: false
+      - key: PINECONE_INDEX_NAME
+        sync: false
