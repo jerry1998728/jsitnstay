@@ -3,6 +3,7 @@ from email.message import EmailMessage
 import os
 from dotenv import load_dotenv
 from datetime import datetime
+import pandas as pd
 
 load_dotenv()
 
