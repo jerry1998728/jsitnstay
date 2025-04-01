@@ -4,6 +4,7 @@ import os
 from dotenv import load_dotenv
 from datetime import datetime
 import pandas as pd
+from io import BytesIO
 
 load_dotenv()
 
