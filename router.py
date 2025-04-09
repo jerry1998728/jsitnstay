@@ -18,7 +18,7 @@ def route_message(message: str) -> str:
         st.session_state.waiting_for_reply = True
         reply = booking_manager(message)
 
-        # ✅ Release booking agent if booking is completed
+        # Release booking agent if booking is completed
         if "booking_state" in st.session_state and st.session_state.booking_state.get("completed"):
             st.session_state.active_agent = None
 
