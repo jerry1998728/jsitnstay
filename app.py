@@ -10,7 +10,7 @@ OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 PINECONE_API_KEY = os.getenv("PINECONE_API_KEY")
 PINECONE_INDEX_NAME = "petsittingknowledge"
 
-# ✅ Initialize Pinecone client (Modern way)
+# Initialize Pinecone client (Modern way)
 pc = Pinecone(api_key=PINECONE_API_KEY)
 pinecone_index = pc.Index(PINECONE_INDEX_NAME)
 
@@ -21,7 +21,7 @@ st.set_page_config(
     layout="wide"
 )
 
-# ✅ Custom styling
+# Custom styling
 st.markdown("""
 <style>
     html, body, [class*="css"] {
@@ -155,7 +155,7 @@ if user_input and not st.session_state.get("waiting_for_reply"):
     with st.spinner("Just a second..."):
         reply = route_message(user_input)
 
-    # Stream assistant reply with 🐶
+    # Stream assistant reply with "🐶" for token streaming
     placeholder = st.empty()
     streamed_text = ""
     for i, token in enumerate(reply):
