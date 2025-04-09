@@ -9,7 +9,7 @@ def booking_manager(message):
             "pets": [],
             "current_pet": {},
             "num_pets": 0,
-            "completed": False  # ✅ Added flag
+            "completed": False  # Added booking completion flag
         }
 
     state = st.session_state.booking_state
@@ -117,7 +117,7 @@ def booking_manager(message):
     elif state["step"] == 18:
         state["current_pet"]["Pick-up Time"] = message
 
-        # ✅ Verify all required fields
+        # Verify all required fields
         required_keys = ["Name", "Type", "Sex", "Breed", "Age_months", "Friendliness", "Food_type", "Portion", "Frequency", "Medication", "Drop-off Date", "Drop-off Time", "Pick-up Date", "Pick-up Time"]
         if all(k in state["current_pet"] for k in required_keys):
             state["pets"].append(state["current_pet"])
@@ -139,6 +139,6 @@ def booking_manager(message):
                 "<br>"
                 "✅ Booking completed. Feel free to ask me anything else now!"
             )
-            state["completed"] = True  # ✅ mark as completed
+            state["completed"] = True  # Mark booking completion
 
     return response
