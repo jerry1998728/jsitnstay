@@ -24,7 +24,7 @@ def concierge_agent(message: str) -> str:
     )
     embedder = OpenAIEmbeddings(openai_api_key=OPENAI_API_KEY)
     
-    # ✅ Use correct VectorStore wrapper
+    # Use correct VectorStore wrapper
     vectorstore = LangchainPinecone(index, embedder, text_key="text")
     retriever = vectorstore.as_retriever()
 
@@ -60,4 +60,4 @@ def concierge_agent(message: str) -> str:
         result = qa_chain.run(message)
         return result
     except Exception as e:
-        return f"⚠️ Error generating response: {e}"
+        return f"Error generating response: {e}"
