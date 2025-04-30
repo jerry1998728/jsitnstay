@@ -9,7 +9,7 @@ def booking_manager(message):
             "pets": [],
             "current_pet": {},
             "num_pets": 0,
-            "completed": False  # Added booking completion flag
+            "completed": False  #Added booking completion flag
         }
 
     state = st.session_state.booking_state
@@ -139,6 +139,6 @@ def booking_manager(message):
                 "<br>"
                 "✅ Booking completed. Feel free to ask me anything else now!"
             )
-            state["completed"] = True  # Mark booking completion
+            state["completed"] = True  #Mark booking completion
 
     return response
