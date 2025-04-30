@@ -56,6 +56,6 @@ The chatbot consists of **three specialized agents**:
 ---
 
 ## Author
-Built by **Cheng-Tso (Jerry) Hsieh**  
+Built by **Cheng-Tso (Jerry) Hsieh** in a timespan of a 10-day spring break 
 🔗 [LinkedIn](https://linkedin.com/in/jerry-ct-hsieh) | 🐙 [GitHub](https://github.com/jerry1998728)
 
