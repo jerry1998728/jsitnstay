@@ -21,8 +21,8 @@ This chatbot assistant was designed to:
 | **OpenAI GPT-3.5 Turbo** | Language model for generating conversational responses |
 | **ADA-002** | Embedding model for semantic search and similarity |
 | **Pinecone** | Vector database for storing and retrieving contextually relevant business data |
-| **Streamlit** | Lightweight, chat-style frontend interface |
-| **Render** | Deployment platform for hosting the chatbot |
+| **Streamlit** | Chat-style frontend interface |
+| **Render** | Deployment platform for hosting the chatbot publicly |
 | **Prompt Engineering** | Tailored prompts per agent to ensure accurate, role-specific outputs |
 
 ---
