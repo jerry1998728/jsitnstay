@@ -6,16 +6,16 @@ from langchain_community.vectorstores import Pinecone as LangchainPinecone
 from pinecone import Pinecone
 
 def concierge_agent(message: str) -> str:
-    # --- API Keys ---
+    #API Keys
     OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
     PINECONE_API_KEY = os.getenv("PINECONE_API_KEY")
     PINECONE_INDEX_NAME = "petsittingknowledge"
 
-    # --- Initialize Pinecone (v3 syntax) ---
+    #Pinecone Initiaization
     pc = Pinecone(api_key=PINECONE_API_KEY)
     index = pc.Index(PINECONE_INDEX_NAME)
 
-    # --- LangChain Components ---
+    #LangChain Components
     llm = ChatOpenAI(
         model_name="gpt-3.5-turbo",
         streaming=True,  # Token streaming enabled
@@ -24,11 +24,11 @@ def concierge_agent(message: str) -> str:
     )
     embedder = OpenAIEmbeddings(openai_api_key=OPENAI_API_KEY)
     
-    # Use correct VectorStore wrapper
+    #VectorStore wrapper
     vectorstore = LangchainPinecone(index, embedder, text_key="text")
     retriever = vectorstore.as_retriever()
 
-    # --- Prompt Template ---
+    #Prompt Template
     prompt = PromptTemplate(
         input_variables=["context", "question"],
         template="""
@@ -46,7 +46,7 @@ def concierge_agent(message: str) -> str:
         """
     )
 
-    # --- RAG Chain ---
+    #Retrieval and Augmentation
     qa_chain = RetrievalQA.from_chain_type(
         llm=llm,
         retriever=retriever,
@@ -55,7 +55,7 @@ def concierge_agent(message: str) -> str:
         return_source_documents=False
     )
 
-    # --- Generate Answer ---
+    #Answer Generation
     try:
         result = qa_chain.run(message)
         return result
