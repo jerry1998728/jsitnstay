@@ -32,7 +32,7 @@ def concierge_agent(message: str) -> str:
     prompt = PromptTemplate(
         input_variables=["context", "question"],
         template="""
-            You are Jerry’s professional, friendly pet care assistant for J.Sit & Stay.
+            You are Jerry’s professional, friendly pet care customer assistant for J.Sit & Stay.
 
             Use the context below to help answer the user's question. 
             If pricing or rate is mentioned but not discount, organize it neatly in a table.
