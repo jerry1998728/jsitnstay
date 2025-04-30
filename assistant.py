@@ -1,27 +1,27 @@
-# app.py — Full Agentic Concierge App with Pinecone Retrieval
+#Full Agentic Concierge App with Pinecone Retrieval
 import streamlit as st
 import time
 import os
 from pinecone import Pinecone
 from router import route_message
 
-# -------- CONFIG --------
+#Environment and Keys
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 PINECONE_API_KEY = os.getenv("PINECONE_API_KEY")
 PINECONE_INDEX_NAME = "petsittingknowledge"
 
-# Initialize Pinecone client (Modern way)
+#Pinecone Setup
 pc = Pinecone(api_key=PINECONE_API_KEY)
 pinecone_index = pc.Index(PINECONE_INDEX_NAME)
 
-# -------- STREAMLIT SETTINGS --------
+#Streamlit Settings
 st.set_page_config(
     page_title="J.Sit & Stay Concierge",
     page_icon="🐾",
     layout="wide"
 )
 
-# Custom styling
+#Custom styling
 st.markdown("""
 <style>
     html, body, [class*="css"] {
@@ -97,7 +97,7 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-# -------- HEADER --------
+#Header
 with st.container():
     st.markdown("""
         <div style='text-align: center; margin-top: 0rem; margin-bottom: 0rem;'>
@@ -108,7 +108,7 @@ with st.container():
         </div>
     """, unsafe_allow_html=True)
 
-# -------- CHAT --------
+#Chat Setting
 if "chat_history" not in st.session_state:
     st.session_state.chat_history = []
 
@@ -127,7 +127,7 @@ if not st.session_state.chat_history:
                    "- Ask any general questions about J.Sit & Stay!"
     })
 
-# Chat bubble renderer
+#Chat bubble renderer
 def render_bubble(message, sender="assistant"):
     css_class = "chat-assistant" if sender == "assistant" else "chat-user"
     st.markdown(
@@ -135,27 +135,27 @@ def render_bubble(message, sender="assistant"):
         unsafe_allow_html=True
     )
 
-# Render chat history
+#Render chat history
 for msg in st.session_state.chat_history:
     render_bubble(msg["content"], sender=msg["role"])
 
-# Input + reply handling
+#Input + reply handling
 user_input = st.chat_input(
     "Ask your question here...",
     disabled=st.session_state.get("waiting_for_reply", False)
 )
 
 if user_input and not st.session_state.get("waiting_for_reply"):
-    # Save user message
+    #Save user message
     st.session_state.chat_history.append({"role": "user", "content": user_input})
     render_bubble(user_input, sender="user")
     st.session_state.waiting_for_reply = True
 
-    # Process message
+    #Process message
     with st.spinner("Just a second..."):
         reply = route_message(user_input)
 
-    # Stream assistant reply with "🐶" for token streaming
+    #Stream assistant reply with "🐶" for token streaming
     placeholder = st.empty()
     streamed_text = ""
     for i, token in enumerate(reply):
@@ -167,6 +167,6 @@ if user_input and not st.session_state.get("waiting_for_reply"):
         )
         time.sleep(0.025)
 
-    # Save full reply
+    #Save full reply
     st.session_state.chat_history.append({"role": "assistant", "content": reply})
     st.session_state.waiting_for_reply = False
