@@ -6,13 +6,13 @@ import streamlit as st
 def route_message(message: str) -> str:
     message_lower = message.lower()
 
-    # Initialize agent and lock state
+    #Initialize agent and lock state
     if "active_agent" not in st.session_state:
         st.session_state.active_agent = None
     if "waiting_for_reply" not in st.session_state:
         st.session_state.waiting_for_reply = False
 
-    # ----------------------- Booking Agent Logic -----------------------
+    #Booking Agent Logic
     if any(keyword in message_lower for keyword in ["book", "schedule", "appointment"]) or st.session_state.active_agent == "booking":
         st.session_state.active_agent = "booking"
         st.session_state.waiting_for_reply = True
@@ -25,7 +25,7 @@ def route_message(message: str) -> str:
         st.session_state.waiting_for_reply = False
         return reply
 
-    # ----------------------- Public Relations Logic -----------------------
+    #Public Relations Logic
     elif any(keyword in message_lower for keyword in ["payment", "discount", "cheaper", "venmo", "zelle", "pay"]):
         st.session_state.active_agent = "public_relations"
         st.session_state.waiting_for_reply = True
@@ -33,7 +33,7 @@ def route_message(message: str) -> str:
         st.session_state.waiting_for_reply = False
         return reply
 
-    # ----------------------- Concierge Fallback -----------------------
+    #Concierge Fallback
     else:
         st.session_state.active_agent = "concierge"
         st.session_state.waiting_for_reply = True
