@@ -46,7 +46,7 @@ def concierge_agent(message: str) -> str:
         """
     )
 
-    #Retrieval and Augmentation
+    #Retrieval-Augmented Generation Pipeline
     qa_chain = RetrievalQA.from_chain_type(
         llm=llm,
         retriever=retriever,
@@ -55,7 +55,7 @@ def concierge_agent(message: str) -> str:
         return_source_documents=False
     )
 
-    #Answer Generation
+    #RAG Pipeline Execution
     try:
         result = qa_chain.run(message)
         return result
