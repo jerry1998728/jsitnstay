@@ -49,9 +49,9 @@ def concierge_agent(message: str) -> str:
     #Retrieval-Augmented Generation Pipeline
     qa_chain = RetrievalQA.from_chain_type(
         llm=llm,
-        retriever=retriever,
-        chain_type="stuff",
-        chain_type_kwargs={"prompt": prompt},
+        retriever=retriever,                           #Vector-based retriever to fetch relevant documents
+        chain_type="stuff",                            #"Stuff" concatenates all retrieved docs into one prompt
+        chain_type_kwargs={"prompt": prompt},          #Injects retrieved context + question into a friendly, task-specific prompt
         return_source_documents=False
     )
 
