@@ -1,6 +1,6 @@
-# 🐶 J.Sit & Stay – Multi-Agent RAG-Powered Chatbot Assistant
+# 🐶 J.Sit & Stay – Multi-Agentic RAG-Powered Chatbot Assistant
 
-J.Sit & Stay is an intelligent, multi-agent chatbot built to automate and streamline customer intake and service for a pet-sitting business. Powered by cutting-edge GenAI technologies, the assistant answers user questions, processes bookings, and provides personalized care insights — reducing manual input and elevating the client experience.
+J.Sit & Stay is an intelligent, multi-agentic chatbot built to automate and streamline customer intake and service for my pet-sitting business. Powered by cutting-edge GenAI technologies, the assistant answers user questions, processes bookings, and provides personalized care insights using my specific knowledge base—reducing manual input and elevating the client experience.
 
 ---
 
@@ -10,7 +10,7 @@ This chatbot assistant was designed to:
 - Automate customer inquiries about services, pricing, and pet care.
 - Streamline intake forms and background collection with dynamic logic.
 - Reduce repetitive manual tasks for business owners using LLM-driven interaction.
-- Integrate domain-specific knowledge using a RAG (Retrieval-Augmented Generation) pipeline.
+- Integrate domain-specific knowledge using an RAG (Retrieval-Augmented Generation) pipeline.
 
 ---
 
