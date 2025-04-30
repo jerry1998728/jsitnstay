@@ -38,20 +38,20 @@ The chatbot consists of **three specialized agents**:
 
 ### RAG Pipeline
 
-- Embeds internal documents (e.g., Pricing, service policies, customer FAQs) using **ADA-002**
-- Stores them in **Pinecone**
-- Dynamically retrieves relevant chunks for each query
-- Injects the context into GPT prompts to improve response accuracy
+- Embeds internal business document/information (e.g., Pricing, service policies, customer FAQs) using **ADA-002**.
+- Stores them in **Pinecone**.
+- Dynamically retrieves relevant chunks for each query.
+- Injects the context into GPT prompts to improve response accuracy and reduce hallucination.
 
 ---
 
 ## Key Results
 
-- **Reduced manual intake effort by ~90%**
-- **Improved booking process efficiency by 100%**
-- **Enhanced accuracy in policy-related responses through vector search**
-- **Improved overall user engagement with intelligent, guided conversations**
-- **Manual LLM Evaluation performed to ensure 100% accuracy with 0% hallucination, 100% expected Tone and Format, and 100% helpfulness in the final LLM Response**
+- **Reduced manual intake effort by ~90%**.
+- **Improved booking process efficiency by 100%**.
+- **Enhanced accuracy in policy-related responses through vector search**.
+- **Improved overall user engagement with intelligent, guided conversations**.
+- **Manual LLM Evaluation performed to ensure 100% accuracy with 0% hallucination, 100% expected Tone and Format, and 100% helpfulness in the final LLM Response**.
 
 ---
 
